@@ -3,15 +3,17 @@ public class Vehicle {
 	String make;
 	String model;
 	String year;
-	String destination;
+	Address location;
+	Address destination;
 	DrivingStyle style;
 	
 	// constructor for new vehicles
-	public Vehicle vehicle(String make, String model, String year, String dest, DrivingStyle style) {
+	public Vehicle vehicle(String make, String model, String year, Address loc, Address dest, DrivingStyle style) {
 		this.make = make;
 		this.model = model;
 		this.year = year;
-		this.destination = dest;    // should make destination its own class
+		this.location = loc;
+		this.destination = dest;
 		this.style = style;
 		return this;
 	}
@@ -22,7 +24,7 @@ public class Vehicle {
 	}
 	
 	// updates destination of vehicle
-	public void changeDest(String newDest) {
+	public void changeDest(Address newDest) {
 		this.destination = newDest;
 	}
 }
