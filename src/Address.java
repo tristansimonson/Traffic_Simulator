@@ -2,20 +2,21 @@
 public class Address {
 	int street1;
 	int street2;
-	String city;
-	String state;
-	String zip;
+	// String city;
+	// String state;
+	// String zip;
 	
-	public Address address(int street1, int street2, String city, String state, String zip) {
+	public Address address(int street1, int street2) { // , String city, String state, String zip) {
 		this.street1 = street1;
 		this.street2 = street2;
-		this.city = city;
-		this.state = state;
-		this.zip = zip;
+		// this.city = city;
+		// this.state = state;
+		// this.zip = zip;
 		return this;
 	}
 	
-	public String addressToString() {
+	/*
+	 public String addressToString() {
 		String result = "";
 		String space = "         ";
 		result += Integer.toString(this.street1);
@@ -27,4 +28,5 @@ public class Address {
 		result += " " + this.zip;
 		return result;
 	}
+	*/
 }

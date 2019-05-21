@@ -8,6 +8,10 @@ public class Traffic_Simulator {
 	}
 	
 	// decide direction for car to go
+	// # # # #
+	// # x # # ex address 2 3 
+	// # # # #
+	// # # # #
 	public void move() {
 		// check location of vehicle and compare it to destination, depending on cardinal direction have them move respectively
 	}
