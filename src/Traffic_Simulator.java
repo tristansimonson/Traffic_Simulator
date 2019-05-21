@@ -27,13 +27,37 @@ public class Traffic_Simulator {
 	}
 	
 	// runs simulation
-	public static void run(ArrayList v, ArrayList s, int[] map, int timer) {
-		// go through list and execute move for each vehicle
-		// check if there is a stoplight at the node
-		// check if light is green or yellow
-		// if light is red car will be added to queue of light
-		// if car reaches destination then remove from list
+	public static void run(ArrayList<Vehicle> v, ArrayList<Stoplight> s, int[] map, int timer) {
+		// increment timer and return if reaches zero
 		// if vehicle list empty return
+		if(v.isEmpty() || timer == 0) {
+			return;
+		}
+		// go through list and execute move for each vehicle
+		for(int i = 0; i < v.size(); i++) {
+			// check if there is a stoplight at the node
+			// TODO: check if vehicle is in a queue
+			for(int j = 0; j < s.size(); j++) {
+				// car has arrived at stoplight
+				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
+					// check if light is green or yellow
+					if(s.get(j).color != LightColor.GREEN) {
+						// make sure move is within map dimensions
+						// if light is red car will be added to queue of light
+					}
+				}
+				// no stoplight at car 
+				else {
+					// continue
+				}
+			}
+			// if car reaches destination then remove from list
+			if(v.get(i).location == v.get(i).destination) {
+				v.remove(i);
+			}
+		}
+		// pass updated timer
+		run(v, s, map, timer - 1);
 	}
 	
 	// decide direction for car to go
