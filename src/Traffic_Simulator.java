@@ -4,7 +4,16 @@ public class Traffic_Simulator {
 	
 	// main class
 	public static void main (String[] args) {
-		// main here
+		Stoplight s1 = new Stoplight();
+		s1 = s1.stoplight(1, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
+		Address loc = new Address();
+		loc = loc.address(1, 1);
+		Address dest = new Address();
+		dest = dest.address(2, 2);
+		Vehicle v1 = new Vehicle();
+		v1 = v1.vehicle("Chevy", "Volt", "2015", loc, dest, DrivingStyle.AVERAGE);
+		
+		
 	}
 	
 	// decide direction for car to go

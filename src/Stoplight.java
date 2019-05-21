@@ -1,20 +1,25 @@
+import java.util.ArrayList;
+
 // stoplights
 public class Stoplight {
-	String EWStreet;
-	String NSStreet;
+	int EWStreet; // swapped to int from string for simplicity
+	int NSStreet; // can add lookup later for conversion
 	double greenDuration;
 	double yellowDuration;
 	double redDuration;
+	ArrayList queue;
+	
 	LightColor color;
 	
 	// stoplight constructor
-	public Stoplight stoplight(String EW, String NS, double green, double yellow, double red, LightColor color) {
+	public Stoplight stoplight(int EW, int NS, double green, double yellow, double red, LightColor color) {
 		this.EWStreet = EW;
 		this.NSStreet = NS;
 		this.greenDuration = green;
 		this.yellowDuration = yellow;
 		this.redDuration = red;
 		this.color = color;
+		this.queue = new ArrayList<Vehicle>();
 		return this;
 	}
 	
@@ -52,8 +57,18 @@ public class Stoplight {
 	}
 	
 	// change address of light incase of possible error
-	public void changeAddress(String NS, String EW) {
+	public void changeAddress(int NS, int EW) {
 		this.NSStreet = NS;
 		this.EWStreet = EW;
+	}
+	
+	// add vehicle to queue
+	public void addVehicle(Vehicle v) {
+		this.queue.add(v);
+	}
+	
+	// remove vehicle from queue
+	public void removeVehicle(Vehicle v) {
+		this.queue.remove(v);
 	}
 }
