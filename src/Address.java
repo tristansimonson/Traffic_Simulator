@@ -1,12 +1,12 @@
 // class for holding address information
 public class Address {
-	String street1;
-	String street2;
+	int street1;
+	int street2;
 	String city;
 	String state;
 	String zip;
 	
-	public Address address(String street1, String street2, String city, String state, String zip) {
+	public Address address(int street1, int street2, String city, String state, String zip) {
 		this.street1 = street1;
 		this.street2 = street2;
 		this.city = city;
@@ -18,8 +18,8 @@ public class Address {
 	public String addressToString() {
 		String result = "";
 		String space = "         ";
-		result += this.street1;
-		if(this.street2 != "") {
+		result += Integer.toString(this.street1);
+		if(Integer.toString(this.street2) != "") {
 			result += "\n" + space + this.street2;
 		}
 		result += "\n" + space + this.city;
