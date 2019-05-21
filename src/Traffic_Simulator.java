@@ -1,9 +1,19 @@
-// imports
+import java.util.ArrayList;
+import java.util.List;
 
 public class Traffic_Simulator {
 	
 	// main class
 	public static void main (String[] args) {
+		// list of vehicles
+		ArrayList vehicles = new ArrayList<Vehicle>();
+		// list of stoplights
+		ArrayList stoplights = new ArrayList<Stoplight>();
+		// map dimensions
+		int[] map = {5, 5};
+		// how long you want simulation to run for
+		int timer = 20;
+		
 		Stoplight s1 = new Stoplight();
 		s1 = s1.stoplight(1, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Address loc = new Address();
@@ -13,7 +23,17 @@ public class Traffic_Simulator {
 		Vehicle v1 = new Vehicle();
 		v1 = v1.vehicle("Chevy", "Volt", "2015", loc, dest, DrivingStyle.AVERAGE);
 		
-		
+		run(vehicles, stoplights, map, timer);
+	}
+	
+	// runs simulation
+	public static void run(ArrayList v, ArrayList s, int[] map, int timer) {
+		// go through list and execute move for each vehicle
+		// check if there is a stoplight at the node
+		// check if light is green or yellow
+		// if light is red car will be added to queue of light
+		// if car reaches destination then remove from list
+		// if vehicle list empty return
 	}
 	
 	// decide direction for car to go
