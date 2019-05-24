@@ -55,8 +55,15 @@ public class Traffic_Simulator {
 					System.out.println("Vehicle has arrived at stoplight");
 					// check if light is green or yellow
 					// TODO: check if vehicle is in a queue
+					ArrayList queue = s.get(j).queue;
+					for(int k = 0; k < queue.size(); k++) {
+						if(queue.get(k) == v.get(i)) {
+							System.out.println("Vehicle found in queue");
+						}
+					}
 					// TODO: need to add behavior for driver types later
 					// TODO: need to make moves in order of stoplight queue
+					// TODO: need to change color of light as time goes on
 					if(s.get(j).color != LightColor.GREEN) {
 					}
 					if(s.get(j).color != LightColor.YELLOW) {
