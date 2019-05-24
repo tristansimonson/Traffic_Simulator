@@ -1,17 +1,16 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Traffic_Simulator {
 	
 	// main class
 	public static void main (String[] args) {
 		// list of vehicles
-		ArrayList vehicles = new ArrayList<Vehicle>();
+		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		// list of stoplights
-		ArrayList stoplights = new ArrayList<Stoplight>();
+		ArrayList<Stoplight> stoplights = new ArrayList<Stoplight>();
 		// map dimensions
 		int[] map = {5, 5};
-		// how long you want simulation to run for
+		// how many time units simulation runs for
 		int timer = 20;
 		
 		Stoplight s1 = new Stoplight();
@@ -22,7 +21,10 @@ public class Traffic_Simulator {
 		dest = dest.address(2, 2);
 		Vehicle v1 = new Vehicle();
 		v1 = v1.vehicle("Chevy", "Volt", "2015", loc, dest, DrivingStyle.AVERAGE);
+		stoplights.add(s1);
+		vehicles.add(v1);
 		
+		System.out.println("Running sim...");
 		run(vehicles, stoplights, map, timer);
 	}
 	
@@ -37,6 +39,12 @@ public class Traffic_Simulator {
 			// check if there is a stoplight at the node
 			// TODO: check if vehicle is in a queue
 			// TODO: should move go here?
+			System.out.println("here");
+			// if car reaches destination then remove from list
+			if(move(v.get(i), map) == true) {
+				v.remove(i);
+				return;
+			}
 			for(int j = 0; j < s.size(); j++) {
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
@@ -54,10 +62,6 @@ public class Traffic_Simulator {
 				else {
 					// TODO: should I do a move here for recursive call?
 				}
-			}
-			// if car reaches destination then remove from list
-			if(v.get(i).location == v.get(i).destination) {
-				v.remove(i);
 			}
 		}
 		// pass updated timer
