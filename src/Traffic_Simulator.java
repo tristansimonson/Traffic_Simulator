@@ -42,18 +42,12 @@ public class Traffic_Simulator {
 		}
 		// go through list and execute move for each vehicle
 		for(int i = 0; i < v.size(); i++) {
-			System.out.println("here");
-			// if car reaches destination then remove from list
-			if(move(v.get(i), map) == true) {
-				v.remove(i);
-				return;
-			}
+			System.out.println("loop");
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight");
-					// check if light is green or yellow
 					// TODO: check if vehicle is in a queue
 					ArrayList queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
@@ -61,16 +55,33 @@ public class Traffic_Simulator {
 							System.out.println("Vehicle found in queue");
 						}
 					}
-					// TODO: need to add behavior for driver types later
 					// TODO: need to make moves in order of stoplight queue
 					// TODO: need to change color of light as time goes on
 					if(s.get(j).color != LightColor.GREEN) {
+						// if car reaches destination then remove from list
+						if(move(v.get(i), map) == true) {
+							v.remove(i);
+							return;
+						}
 					}
-					if(s.get(j).color != LightColor.YELLOW) {
+					else if(s.get(j).color != LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
+						// if car reaches destination then remove from list
+						if(move(v.get(i), map) == true) {
+							v.remove(i);
+							return;
+						}
 					}
 					// if light is red car will be added to queue of light
 					else {
 						s.get(j).queue.add(v.get(i));
+					}
+				}
+				// no stoplight at intersection so good to go
+				else {
+					// if car reaches destination then remove from list
+					if(move(v.get(i), map) == true) {
+						v.remove(i);
+						return;
 					}
 				}
 			}
