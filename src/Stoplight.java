@@ -8,8 +8,8 @@ public class Stoplight {
 	double yellowDuration;
 	double redDuration;
 	ArrayList queue;
-	
-	LightColor color;
+	LightColor startingColor;
+	LightColor currentColor;
 	
 	// stoplight constructor
 	public Stoplight stoplight(int EW, int NS, double green, double yellow, double red, LightColor color) {
@@ -18,7 +18,8 @@ public class Stoplight {
 		this.greenDuration = green;
 		this.yellowDuration = yellow;
 		this.redDuration = red;
-		this.color = color;
+		this.startingColor = color;
+		this.currentColor = color;
 		this.queue = new ArrayList<Vehicle>();
 		return this;
 	}
@@ -26,13 +27,13 @@ public class Stoplight {
 	// changes the color of the light
 	public void changeLight(String color) {
 		if (color == "red" || color == "RED" || color == "Red") {
-			this.color = LightColor.RED;
+			this.currentColor = LightColor.RED;
 		}
 		if (color == "yellow" || color == "YELLOW" || color == "Yellow") {
-			this.color = LightColor.YELLOW;
+			this.currentColor = LightColor.YELLOW;
 		}
 		else {
-			this.color = LightColor.GREEN;
+			this.currentColor = LightColor.GREEN;
 		}
 	}
 	

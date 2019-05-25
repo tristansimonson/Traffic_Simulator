@@ -42,13 +42,14 @@ public class Traffic_Simulator {
 		}
 		// go through list and execute move for each vehicle
 		for(int i = 0; i < v.size(); i++) {
-			System.out.println("loop");
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
+				// update stoplight
+				determineLight(s.get(j), timer);
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight");
-					// TODO: check if vehicle is in a queue
+					// check if vehicle is in a queue
 					ArrayList queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
 						if(queue.get(k) == v.get(i)) {
@@ -56,15 +57,14 @@ public class Traffic_Simulator {
 						}
 					}
 					// TODO: need to make moves in order of stoplight queue
-					// TODO: need to change color of light as time goes on
-					if(s.get(j).color != LightColor.GREEN) {
+					if(s.get(j).currentColor != LightColor.GREEN) {
 						// if car reaches destination then remove from list
 						if(move(v.get(i), map) == true) {
 							v.remove(i);
 							return;
 						}
 					}
-					else if(s.get(j).color != LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
+					else if(s.get(j).currentColor != LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
 						// if car reaches destination then remove from list
 						if(move(v.get(i), map) == true) {
 							v.remove(i);
@@ -88,6 +88,51 @@ public class Traffic_Simulator {
 		}
 		// pass updated timer
 		run(v, s, map, timer - 1);
+	}
+	
+	// determines what color of light should be based on durations of colors and timer
+	public static void determineLight(Stoplight s, int timePassed) {
+		double timeReduced = timePassed % s.greenDuration + s.yellowDuration + s.redDuration;
+		LightColor firstColor = s.startingColor;
+		LightColor secondColor = s.startingColor;
+		LightColor thirdColor = s.startingColor;
+		double firstDuration = 0.0;
+		double secondDuration = 0.0;
+		double thirdDuration = 0.0;
+		// need to figure out color and duration order
+		if(firstColor == LightColor.GREEN) {
+			secondColor = LightColor.YELLOW;
+			thirdColor = LightColor.RED;
+			firstDuration = s.greenDuration;
+			secondDuration = s.yellowDuration;
+			thirdDuration = s.redDuration;
+		}
+		else if (firstColor == LightColor.YELLOW) {
+			secondColor = LightColor.RED;
+			thirdColor = LightColor.GREEN;
+			firstDuration = s.yellowDuration;
+			secondDuration = s.redDuration;
+			thirdDuration = s.greenDuration;
+		}
+		else {
+			secondColor = LightColor.GREEN;
+			thirdColor = LightColor.YELLOW;
+			firstDuration = s.redDuration;
+			secondDuration = s.greenDuration;
+			thirdDuration = s.yellowDuration;
+		}
+		// into second duration
+		if(timeReduced > firstDuration && timeReduced <= firstDuration + secondDuration) {
+			s.currentColor = secondColor;
+		}
+		// into third duration
+		else if(timeReduced > firstDuration + secondDuration) {
+			s.currentColor = thirdColor;
+		}
+		// in first duration
+		else {
+			s.currentColor = firstColor;
+		}
 	}
 	
 	// decide direction for car to go
