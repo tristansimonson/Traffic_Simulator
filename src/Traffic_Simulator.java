@@ -16,7 +16,7 @@ public class Traffic_Simulator {
 		Stoplight s1 = new Stoplight();
 		s1 = s1.stoplight(1, 2, 1.0, 1.0, 1.0, LightColor.GREEN);
 		Stoplight s2 = new Stoplight();
-		s2 = s2.stoplight(2, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
+		s2 = s2.stoplight(2, 1, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Stoplight s3 = new Stoplight();
 		s3 = s3.stoplight(3, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Address loc = new Address();
@@ -42,39 +42,45 @@ public class Traffic_Simulator {
 		}
 		// go through list and execute move for each vehicle
 		for(int i = 0; i < v.size(); i++) {
-			boolean carMove = move(v.get(i), map);
-			if(carMove == true) {
-				v.remove(i);
-			}
-			if(v.isEmpty() || timer == 0) {
-				return;
-			}
+			boolean canMove = true;
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight");
-					// check if vehicle is in a queue
+					// check if vehicle in a queue
 					ArrayList queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
 						if(queue.get(k) == v.get(i)) {
+							// check if vehicle not at front of queue
+							if(k != 0) {
+								canMove = false;
+							}
 							System.out.println("Vehicle found in queue");
 						}
 					}
-					// TODO: need to make moves in order of stoplight queue
 					if(s.get(j).currentColor != LightColor.GREEN) {
-						// if car reaches destination then remove from list
-						if(carMove == true) {
-							v.remove(i);
-							continue;
+						// move car
+						if (canMove == true) {
+							canMove = false;
+							if(move(v.get(i), map) == true) {
+								v.remove(i);
+								continue;
+							}
 						}
 					}
 					else if(s.get(j).currentColor != LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
-						// if car reaches destination then remove from list
-						if(carMove == true) {
-							v.remove(i);
-							continue;
+						// move car
+						if (canMove == true) {
+							canMove = false;
+							if(move(v.get(i), map) == true) {
+								v.remove(i);
+								continue;
+							}
 						}
+					}
+					if(v.isEmpty() || timer == 0) {
+						return;
 					}
 					// if light is red car will be added to queue of light
 					else {
@@ -84,9 +90,14 @@ public class Traffic_Simulator {
 				// no stoplight at intersection so good to go
 				else {
 					// if car reaches destination then remove from list
-					if(move(v.get(i), map) == true) {
-						v.remove(i);
-						continue;
+					if (canMove == true) {
+						canMove = false;
+						if(move(v.get(i), map) == true) {
+							v.remove(i);
+						}
+						if(v.isEmpty() || timer == 0) {
+							return;
+						}
 					}
 				}
 			}
