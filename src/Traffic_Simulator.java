@@ -110,27 +110,25 @@ public class Traffic_Simulator {
 		double secondDuration = 0.0;
 		double thirdDuration = 0.0;
 		// need to figure out color and duration order
-		// TODO: use switch cases
-		if(firstColor == LightColor.GREEN) {
-			secondColor = LightColor.YELLOW;
-			thirdColor = LightColor.RED;
-			firstDuration = s.greenDuration;
-			secondDuration = s.yellowDuration;
-			thirdDuration = s.redDuration;
-		}
-		else if (firstColor == LightColor.YELLOW) {
-			secondColor = LightColor.RED;
-			thirdColor = LightColor.GREEN;
-			firstDuration = s.yellowDuration;
-			secondDuration = s.redDuration;
-			thirdDuration = s.greenDuration;
-		}
-		else {
-			secondColor = LightColor.GREEN;
-			thirdColor = LightColor.YELLOW;
-			firstDuration = s.redDuration;
-			secondDuration = s.greenDuration;
-			thirdDuration = s.yellowDuration;
+		switch(firstColor) {
+			case GREEN :
+				secondColor = LightColor.YELLOW;
+				thirdColor = LightColor.RED;
+				firstDuration = s.greenDuration;
+				secondDuration = s.yellowDuration;
+				thirdDuration = s.redDuration;
+			case YELLOW :
+				secondColor = LightColor.RED;
+				thirdColor = LightColor.GREEN;
+				firstDuration = s.yellowDuration;
+				secondDuration = s.redDuration;
+				thirdDuration = s.greenDuration;
+			default :
+				secondColor = LightColor.GREEN;
+				thirdColor = LightColor.YELLOW;
+				firstDuration = s.redDuration;
+				secondDuration = s.greenDuration;
+				thirdDuration = s.yellowDuration;
 		}
 		// into second duration
 		if(timeReduced > firstDuration && timeReduced <= firstDuration + secondDuration) {
@@ -146,13 +144,13 @@ public class Traffic_Simulator {
 		}
 	}
 	
-	// decide direction for car to go
+	// decides direction for car to go
 	// # # # #
 	// # x # # ex address 2 3 
 	// # # # #
 	// # # # #
 	public static boolean move(Vehicle v, int[] map) {
-		// check location of vehicle and compare it to destination, depending on cardinal direction have them move respectively
+		// check location of vehicle and compare it to destination, move depending on direction
 		Address target = v.destination;
 		Address loc = v.location;
 		boolean ret = true;
