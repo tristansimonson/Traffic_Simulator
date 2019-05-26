@@ -15,6 +15,10 @@ public class Address {
 		return this;
 	}
 	
+	public String toString() {
+		return (Integer.toString(this.street1) + " " + Integer.toString(this.street2));
+	}
+	
 	/*
 	 public String addressToString() {
 		String result = "";

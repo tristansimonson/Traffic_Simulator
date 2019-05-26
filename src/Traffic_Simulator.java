@@ -47,7 +47,7 @@ public class Traffic_Simulator {
 			for(int j = 0; j < s.size(); j++) {
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
-					System.out.println("Vehicle has arrived at stoplight");
+					System.out.println("Vehicle has arrived at stoplight: " + s.get(j).toString());
 					// check if vehicle in a queue
 					ArrayList queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
@@ -158,7 +158,7 @@ public class Traffic_Simulator {
 	// decides direction for car to go
 	// # # # #
 	// # x # # ex address 2 3 
-	// # # # #
+	// # # # # 
 	// # # # #
 	public static boolean move(Vehicle v, int[] map) {
 		// check location of vehicle and compare it to destination, move depending on direction
@@ -189,8 +189,13 @@ public class Traffic_Simulator {
 			System.out.println("Out of bounds for map");
 		}
 		if(ret == true) {
-			System.out.println("Vehicle has arrived at destination");
+			System.out.println("Vehicle has arrived at destination: " + v.toString());
+			System.out.println("With route history:");
+			for(int i = 0; i < v.routeHistory.size(); i++) {
+				System.out.println("     " + v.routeHistory.get(i).toString());
+			}
 		}
+		v.routeHistory.add(v.location);
 		return ret;
 	}
 }

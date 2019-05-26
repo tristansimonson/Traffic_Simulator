@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // used to create vehicles with characteristics and agendas to simulate traffic
 public class Vehicle {
 	String make;
@@ -5,6 +7,8 @@ public class Vehicle {
 	String year;
 	Address location;
 	Address destination;
+	ArrayList<Address> routeHistory = new ArrayList<Address> ();
+	// TODO: add specified route or class to generate routes based on traffic queues
 	DrivingStyle style;
 	
 	// constructor for new vehicles
@@ -14,6 +18,7 @@ public class Vehicle {
 		this.year = year;
 		this.location = loc;
 		this.destination = dest;
+		this.routeHistory.add(loc);
 		this.style = style;
 		return this;
 	}
