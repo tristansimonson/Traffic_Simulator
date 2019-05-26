@@ -14,7 +14,7 @@ public class Traffic_Simulator {
 		int timer = 20;
 		
 		Stoplight s1 = new Stoplight();
-		s1 = s1.stoplight(1, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
+		s1 = s1.stoplight(1, 2, 1.0, 1.0, 1.0, LightColor.GREEN);
 		Stoplight s2 = new Stoplight();
 		s2 = s2.stoplight(2, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Stoplight s3 = new Stoplight();
@@ -22,7 +22,7 @@ public class Traffic_Simulator {
 		Address loc = new Address();
 		loc = loc.address(1, 1);
 		Address dest = new Address();
-		dest = dest.address(3, 3);
+		dest = dest.address(5, 5);
 		Vehicle v1 = new Vehicle();
 		v1 = v1.vehicle("Chevy", "Volt", "2015", loc, dest, DrivingStyle.AVERAGE);
 		stoplights.add(s1);
@@ -42,10 +42,15 @@ public class Traffic_Simulator {
 		}
 		// go through list and execute move for each vehicle
 		for(int i = 0; i < v.size(); i++) {
+			boolean carMove = move(v.get(i), map);
+			if(carMove == true) {
+				v.remove(i);
+			}
+			if(v.isEmpty() || timer == 0) {
+				return;
+			}
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
-				// update stoplight
-				determineLight(s.get(j), timer);
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight");
@@ -59,16 +64,16 @@ public class Traffic_Simulator {
 					// TODO: need to make moves in order of stoplight queue
 					if(s.get(j).currentColor != LightColor.GREEN) {
 						// if car reaches destination then remove from list
-						if(move(v.get(i), map) == true) {
+						if(carMove == true) {
 							v.remove(i);
-							return;
+							continue;
 						}
 					}
 					else if(s.get(j).currentColor != LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
 						// if car reaches destination then remove from list
-						if(move(v.get(i), map) == true) {
+						if(carMove == true) {
 							v.remove(i);
-							return;
+							continue;
 						}
 					}
 					// if light is red car will be added to queue of light
@@ -81,10 +86,14 @@ public class Traffic_Simulator {
 					// if car reaches destination then remove from list
 					if(move(v.get(i), map) == true) {
 						v.remove(i);
-						return;
+						continue;
 					}
 				}
 			}
+		}
+		// update stoplights
+		for(int i = 0; i < s.size(); i++) {
+			determineLight(s.get(i), timer);
 		}
 		// pass updated timer
 		run(v, s, map, timer - 1);
@@ -92,6 +101,7 @@ public class Traffic_Simulator {
 	
 	// determines what color of light should be based on durations of colors and timer
 	public static void determineLight(Stoplight s, int timePassed) {
+		// System.out.println("determineLight called...");
 		double timeReduced = timePassed % s.greenDuration + s.yellowDuration + s.redDuration;
 		LightColor firstColor = s.startingColor;
 		LightColor secondColor = s.startingColor;
