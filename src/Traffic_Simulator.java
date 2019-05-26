@@ -110,6 +110,7 @@ public class Traffic_Simulator {
 		double secondDuration = 0.0;
 		double thirdDuration = 0.0;
 		// need to figure out color and duration order
+		// TODO: use switch cases
 		if(firstColor == LightColor.GREEN) {
 			secondColor = LightColor.YELLOW;
 			thirdColor = LightColor.RED;

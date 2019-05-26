@@ -27,4 +27,9 @@ public class Vehicle {
 	public void changeDest(Address newDest) {
 		this.destination = newDest;
 	}
+	
+	// prints details of vehicle
+	public String toString() {
+		return (this.year + " " + this.make + " " + this.model);
+	}
 }

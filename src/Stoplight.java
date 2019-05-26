@@ -3,7 +3,7 @@ import java.util.ArrayList;
 // stoplights
 public class Stoplight {
 	int EWStreet; // swapped to int from string for simplicity
-	int NSStreet; // can add lookup later for conversion
+	int NSStreet; // TODO: add lookup later for conversion
 	double greenDuration;
 	double yellowDuration;
 	double redDuration;
@@ -71,5 +71,11 @@ public class Stoplight {
 	// remove vehicle from queue
 	public void removeVehicle(Vehicle v) {
 		this.queue.remove(v);
+	}
+	
+	// returns location of string stoplight
+	public String toString() {
+		// TODO: make actual address after adding lookup
+		return (Integer.toString(this.NSStreet) + " " + Integer.toString(this.EWStreet));
 	}
 }
