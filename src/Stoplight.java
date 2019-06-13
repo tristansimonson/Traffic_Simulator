@@ -78,4 +78,49 @@ public class Stoplight {
 		// TODO: make actual address after adding lookup
 		return (Integer.toString(this.NSStreet) + " " + Integer.toString(this.EWStreet));
 	}
+	
+	// determines what color of light should be based on durations of colors and timer
+	public void determineLight(int timePassed) {
+		// System.out.println("determineLight called...");
+		double timeReduced = timePassed % this.greenDuration + this.yellowDuration + this.redDuration;
+		LightColor firstColor = this.startingColor;
+		LightColor secondColor = this.startingColor;
+		LightColor thirdColor = this.startingColor;
+		double firstDuration = 0.0;
+		double secondDuration = 0.0;
+		double thirdDuration = 0.0;
+		// need to figure out color and duration order
+		switch(firstColor) {
+			case GREEN :
+				secondColor = LightColor.YELLOW;
+				thirdColor = LightColor.RED;
+				firstDuration = this.greenDuration;	
+				secondDuration = this.yellowDuration;
+				thirdDuration = this.redDuration;
+			case YELLOW :
+				secondColor = LightColor.RED;
+				thirdColor = LightColor.GREEN;
+				firstDuration = this.yellowDuration;
+				secondDuration = this.redDuration;
+				thirdDuration = this.greenDuration;
+			default :
+				secondColor = LightColor.GREEN;
+				thirdColor = LightColor.YELLOW;
+				firstDuration = this.redDuration;
+				secondDuration = this.greenDuration;
+				thirdDuration = this.yellowDuration;
+		}
+		// into second duration
+		if(timeReduced > firstDuration && timeReduced <= firstDuration + secondDuration) {
+			this.currentColor = secondColor;
+		}
+		// into third duration
+		else if(timeReduced > firstDuration + secondDuration) {
+			this.currentColor = thirdColor;
+		}
+		// in first duration
+		else {
+			this.currentColor = firstColor;
+		}
+	}
 }

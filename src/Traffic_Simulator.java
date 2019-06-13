@@ -47,7 +47,7 @@ public class Traffic_Simulator {
 			for(int j = 0; j < s.size(); j++) {
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
-					System.out.println("Vehicle has arrived at stoplight: " + s.get(j).toString());
+					System.out.println("Vehicle has arrived at stoplight: " + v.get(i).toString() + " at " + s.get(j).toString());
 					// check if vehicle in a queue
 					ArrayList queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
@@ -104,102 +104,9 @@ public class Traffic_Simulator {
 		}
 		// update stoplights
 		for(int i = 0; i < s.size(); i++) {
-			determineLight(s.get(i), timer);
+			s.get(i).determineLight(timer);
 		}
 		// pass updated timer
 		run(v, s, map, timer - 1);
 	}
-	
-	// determines what color of light should be based on durations of colors and timer
-	public static void determineLight(Stoplight s, int timePassed) {
-		// System.out.println("determineLight called...");
-		double timeReduced = timePassed % s.greenDuration + s.yellowDuration + s.redDuration;
-		LightColor firstColor = s.startingColor;
-		LightColor secondColor = s.startingColor;
-		LightColor thirdColor = s.startingColor;
-		double firstDuration = 0.0;
-		double secondDuration = 0.0;
-		double thirdDuration = 0.0;
-		// need to figure out color and duration order
-		switch(firstColor) {
-			case GREEN :
-				secondColor = LightColor.YELLOW;
-				thirdColor = LightColor.RED;
-				firstDuration = s.greenDuration;
-				secondDuration = s.yellowDuration;
-				thirdDuration = s.redDuration;
-			case YELLOW :
-				secondColor = LightColor.RED;
-				thirdColor = LightColor.GREEN;
-				firstDuration = s.yellowDuration;
-				secondDuration = s.redDuration;
-				thirdDuration = s.greenDuration;
-			default :
-				secondColor = LightColor.GREEN;
-				thirdColor = LightColor.YELLOW;
-				firstDuration = s.redDuration;
-				secondDuration = s.greenDuration;
-				thirdDuration = s.yellowDuration;
-		}
-		// into second duration
-		if(timeReduced > firstDuration && timeReduced <= firstDuration + secondDuration) {
-			s.currentColor = secondColor;
-		}
-		// into third duration
-		else if(timeReduced > firstDuration + secondDuration) {
-			s.currentColor = thirdColor;
-		}
-		// in first duration
-		else {
-			s.currentColor = firstColor;
-		}
-	}
-	
-	/*
-	// decides direction for car to go
-	// # # # #
-	// # x # # ex address 2 3 
-	// # # # # 
-	// # # # #
-	public static boolean move(Vehicle v, int[] map) {
-		// check location of vehicle and compare it to destination, move depending on direction
-		Address target = v.destination;
-		Address loc = v.location;
-		boolean ret = true;
-		if(loc.street1 != target.street1) {
-			if(loc.street1 > target.street1) {
-				v.location.street1 -= 1;
-				ret = false;
-			}
-			else {
-				v.location.street1 += 1;
-				ret = false;
-			}
-		}
-		else if(loc.street2 != target.street2) {
-			if(loc.street2 > target.street2) {
-				v.location.street2 -= 1;
-				ret = false;
-			}
-			else {
-				v.location.street2 += 1;
-				ret = false;
-			}
-		}
-		if(v.location.street1 > map[0] || v.location.street2 > map[1] || v.location.street1 < 0) {
-			System.out.println("Out of bounds for map");
-		}
-		if(ret == true) {
-			System.out.println("Vehicle has arrived at destination: " + v.toString());
-			System.out.println("With route history:");
-			for(int i = 0; i < v.routeHistory.size(); i++) {
-				System.out.println("     " + v.routeHistory.get(i).toString());
-			}
-			return ret;
-		}
-		System.out.println("MOVE: " + v.location);
-		v.routeHistory.add(v.location);
-		return ret;
-	}
-	*/
 }
