@@ -47,7 +47,9 @@ public class Traffic_Simulator {
 			for(int j = 0; j < s.size(); j++) {
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
-					System.out.println("Vehicle has arrived at stoplight: " + v.get(i).toString() + " at " + s.get(j).toString());
+					System.out.println("Vehicle has arrived at stoplight: \n" + 
+									  	"    " + v.get(i).toString() + " at " + s.get(j).toString() + 
+										" with light color " + s.get(j).currentColor.toString());
 					// check if vehicle in a queue
 					ArrayList queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {

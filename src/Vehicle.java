@@ -72,8 +72,8 @@ public class Vehicle {
 			System.out.println("Out of bounds for map");
 		}
 		if(ret == true) {
-			System.out.println("Vehicle has arrived at destination: " + this.toString());
-			System.out.println("    " + "With route history:");
+			System.out.println("Vehicle has arrived at destination:");
+			System.out.println("    " + this.toString() + " with route history:");
 			for(int i = 0; i < this.routeHistory.size(); i++) {
 				System.out.println("    " + "    " + this.routeHistory.get(i).toString());
 			}
