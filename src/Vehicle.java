@@ -7,7 +7,7 @@ public class Vehicle {
 	String year;
 	Address location;
 	Address destination;
-	ArrayList<Address> routeHistory = new ArrayList<Address> ();
+	ArrayList<String> routeHistory = new ArrayList<String> ();
 	// TODO: add specified route or class to generate routes based on traffic queues
 	DrivingStyle style;
 	
@@ -18,7 +18,7 @@ public class Vehicle {
 		this.year = year;
 		this.location = loc;
 		this.destination = dest;
-		this.routeHistory.add(loc);
+		//this.routeHistory.add(loc);
 		this.style = style;
 		return this;
 	}
@@ -36,5 +36,50 @@ public class Vehicle {
 	// prints details of vehicle
 	public String toString() {
 		return (this.year + " " + this.make + " " + this.model);
+	}
+	
+	// decides direction for car to go
+	// # # # #
+	// # x # # ex address 2 3 
+	// # # # # 
+	// # # # #
+	public boolean move(int[] map) {
+		// check location of vehicle and compare it to destination, move depending on direction
+		Address target = this.destination;
+		Address loc = this.location;
+		boolean ret = true;
+		if(loc.street1 != target.street1) {
+			if(loc.street1 > target.street1) {
+				this.location.street1 -= 1;
+				ret = false;
+			}
+			else {
+				this.location.street1 += 1;
+				ret = false;
+			}
+		}
+		else if(loc.street2 != target.street2) {
+			if(loc.street2 > target.street2) {
+				this.location.street2 -= 1;
+				ret = false;
+			}
+		else {
+			this.location.street2 += 1;
+				ret = false;
+			}
+		}
+		if(this.location.street1 > map[0] || this.location.street2 > map[1] || this.location.street1 < 0) {
+			System.out.println("Out of bounds for map");
+		}
+		if(ret == true) {
+			System.out.println("Vehicle has arrived at destination: " + this.toString());
+			System.out.println("    " + "With route history:");
+			for(int i = 0; i < this.routeHistory.size(); i++) {
+				System.out.println("    " + "    " + this.routeHistory.get(i).toString());
+			}
+			return ret;
+		}
+		this.routeHistory.add(this.location.toString());
+		return ret;
 	}
 }

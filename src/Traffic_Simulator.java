@@ -63,7 +63,7 @@ public class Traffic_Simulator {
 						// move car
 						if (canMove == true) {
 							canMove = false;
-							if(move(v.get(i), map) == true) {
+							if(v.get(i).move(map) == true) {
 								v.remove(i);
 								continue;
 							}
@@ -73,7 +73,7 @@ public class Traffic_Simulator {
 						// move car
 						if (canMove == true) {
 							canMove = false;
-							if(move(v.get(i), map) == true) {
+							if(v.get(i).move(map) == true) {
 								v.remove(i);
 								continue;
 							}
@@ -92,7 +92,7 @@ public class Traffic_Simulator {
 					// if car reaches destination then remove from list
 					if (canMove == true) {
 						canMove = false;
-						if(move(v.get(i), map) == true) {
+						if(v.get(i).move(map) == true) {
 							v.remove(i);
 						}
 						if(v.isEmpty() || timer == 0) {
@@ -155,6 +155,7 @@ public class Traffic_Simulator {
 		}
 	}
 	
+	/*
 	// decides direction for car to go
 	// # # # #
 	// # x # # ex address 2 3 
@@ -194,8 +195,11 @@ public class Traffic_Simulator {
 			for(int i = 0; i < v.routeHistory.size(); i++) {
 				System.out.println("     " + v.routeHistory.get(i).toString());
 			}
+			return ret;
 		}
+		System.out.println("MOVE: " + v.location);
 		v.routeHistory.add(v.location);
 		return ret;
 	}
+	*/
 }
