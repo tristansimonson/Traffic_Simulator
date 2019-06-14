@@ -19,6 +19,8 @@ public class Traffic_Simulator {
 		s2 = s2.stoplight(2, 1, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Stoplight s3 = new Stoplight();
 		s3 = s3.stoplight(3, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
+		Stoplight s4 = new Stoplight();
+		s4 = s4.stoplight(4, 1, 1.0, 1.0, 5.0, LightColor.RED);
 		Address loc = new Address();
 		loc = loc.address(1, 1);
 		Address dest = new Address();
@@ -34,6 +36,7 @@ public class Traffic_Simulator {
 		stoplights.add(s1);
 		stoplights.add(s2);
 		stoplights.add(s3);
+		stoplights.add(s4);
 		vehicles.add(v1);
 		vehicles.add(v2);
 		
