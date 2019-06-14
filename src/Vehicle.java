@@ -79,6 +79,7 @@ public class Vehicle {
 			}
 			return ret;
 		}
+		//System.out.println(this.location);
 		this.routeHistory.add(this.location.toString());
 		return ret;
 	}

@@ -25,10 +25,17 @@ public class Traffic_Simulator {
 		dest = dest.address(5, 5);
 		Vehicle v1 = new Vehicle();
 		v1 = v1.vehicle("Chevy", "Volt", "2015", loc, dest, DrivingStyle.AVERAGE);
+		Vehicle v2 = new Vehicle();
+		Address loc2 = new Address();
+		Address dest2 = new Address();
+		loc2 = loc2.address(5, 5);
+		dest2 = dest2.address(4, 1);
+		v2 = v2.vehicle("Nissan", "350z", "2005", loc2, dest2, DrivingStyle.FAST);
 		stoplights.add(s1);
 		stoplights.add(s2);
 		stoplights.add(s3);
 		vehicles.add(v1);
+		vehicles.add(v2);
 		
 		System.out.println("Running sim...");
 		run(vehicles, stoplights, map, timer);
@@ -40,6 +47,8 @@ public class Traffic_Simulator {
 		if(v.isEmpty() || timer == 0) {
 			return;
 		}
+		// copy vehicle list to modify and send to next run call
+		ArrayList<Vehicle> newV = new ArrayList(v);
 		// go through list and execute move for each vehicle
 		for(int i = 0; i < v.size(); i++) {
 			boolean canMove = true;
@@ -66,7 +75,7 @@ public class Traffic_Simulator {
 						if (canMove == true) {
 							canMove = false;
 							if(v.get(i).move(map) == true) {
-								v.remove(i);
+								newV.remove(v.get(i));
 								continue;
 							}
 						}
@@ -76,12 +85,12 @@ public class Traffic_Simulator {
 						if (canMove == true) {
 							canMove = false;
 							if(v.get(i).move(map) == true) {
-								v.remove(i);
+								newV.remove(v.get(i));
 								continue;
 							}
 						}
 					}
-					if(v.isEmpty() || timer == 0) {
+					if(newV.isEmpty() || timer == 0) {
 						return;
 					}
 					// if light is red car will be added to queue of light
@@ -95,9 +104,9 @@ public class Traffic_Simulator {
 					if (canMove == true) {
 						canMove = false;
 						if(v.get(i).move(map) == true) {
-							v.remove(i);
+							newV.remove(v.get(i));
 						}
-						if(v.isEmpty() || timer == 0) {
+						if(newV.isEmpty() || timer == 0) {
 							return;
 						}
 					}
@@ -109,6 +118,6 @@ public class Traffic_Simulator {
 			s.get(i).determineLight(timer);
 		}
 		// pass updated timer
-		run(v, s, map, timer - 1);
+		run(newV, s, map, timer - 1);
 	}
 }
