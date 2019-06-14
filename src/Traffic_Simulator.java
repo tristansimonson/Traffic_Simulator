@@ -121,6 +121,7 @@ public class Traffic_Simulator {
 			s.get(i).determineLight(timer);
 		}
 		// pass updated timer
+		System.out.println("\nSimulation time left: " + (timer - 1));
 		run(newV, s, map, timer - 1);
 	}
 }
