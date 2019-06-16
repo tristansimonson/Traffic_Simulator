@@ -82,7 +82,7 @@ public class Stoplight {
 	// determines what color of light should be based on durations of colors and timer
 	// TODO: make light colors specific to EW NS
 	public void determineLight(int timePassed) {
-		double timeReduced = timePassed % this.greenDuration + this.yellowDuration + this.redDuration;
+		double timeReduced = timePassed % (this.greenDuration + this.yellowDuration + this.redDuration);
 		LightColor firstColor = this.startingColor;
 		LightColor secondColor = this.startingColor;
 		LightColor thirdColor = this.startingColor;

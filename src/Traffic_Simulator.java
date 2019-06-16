@@ -12,6 +12,7 @@ public class Traffic_Simulator {
 		int[] map = {5, 5};
 		// how many time units simulation runs for
 		int timer = 20;
+		int count = 0;
 		
 		Stoplight s1 = new Stoplight();
 		s1 = s1.stoplight(1, 2, 1.0, 1.0, 1.0, LightColor.GREEN);
@@ -20,7 +21,7 @@ public class Traffic_Simulator {
 		Stoplight s3 = new Stoplight();
 		s3 = s3.stoplight(3, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Stoplight s4 = new Stoplight();
-		s4 = s4.stoplight(4, 1, 1.0, 1.0, 20.0, LightColor.RED);
+		s4 = s4.stoplight(4, 2, 1.0, 1.0, 20.0, LightColor.RED);
 		Address loc = new Address();
 		loc = loc.address(1, 1);
 		Address dest = new Address();
@@ -30,7 +31,7 @@ public class Traffic_Simulator {
 		Vehicle v2 = new Vehicle();
 		Address loc2 = new Address();
 		Address dest2 = new Address();
-		loc2 = loc2.address(5, 5);
+		loc2 = loc2.address(4, 5);
 		dest2 = dest2.address(4, 1);
 		v2 = v2.vehicle("Nissan", "350z", "2005", loc2, dest2, DrivingStyle.FAST);
 		Vehicle v3 = new Vehicle();
@@ -44,13 +45,13 @@ public class Traffic_Simulator {
 		vehicles.add(v3);
 		
 		System.out.println("Running sim...");
-		run(vehicles, stoplights, map, timer);
+		run(vehicles, stoplights, map, count, timer);
 	}
 	
 	// runs simulation
-	public static void run(ArrayList<Vehicle> v, ArrayList<Stoplight> s, int[] map, int timer) {
+	public static void run(ArrayList<Vehicle> v, ArrayList<Stoplight> s, int[] map, int count, int timer) {
 		// if vehicle list empty or timer ran out return
-		if(v.isEmpty() || timer == 0) {
+		if(v.isEmpty() || count == timer) {
 			return;
 		}
 		// copy vehicle list to modify and send to next run call
@@ -97,7 +98,7 @@ public class Traffic_Simulator {
 							}
 						}
 					}
-					if(newV.isEmpty() || timer == 0) {
+					if(newV.isEmpty() || count == timer) {
 						return;
 					}
 					// if light is red car will be added to queue of light
@@ -113,7 +114,7 @@ public class Traffic_Simulator {
 						if(v.get(i).move(map) == true) {
 							newV.remove(v.get(i));
 						}
-						if(newV.isEmpty() || timer == 0) {
+						if(newV.isEmpty() || count == timer) {
 							return;
 						}
 					}
@@ -122,10 +123,10 @@ public class Traffic_Simulator {
 		}
 		// update stoplights
 		for(int i = 0; i < s.size(); i++) {
-			s.get(i).determineLight(timer);
+			s.get(i).determineLight(count + 1);
 		}
 		// pass updated timer
-		System.out.println("\nSimulation time left: " + (timer - 1));
-		run(newV, s, map, timer - 1);
+		System.out.println("\nTimer: " + (count + 1) + "/" + timer);
+		run(newV, s, map, count + 1, timer);
 	}
 }
