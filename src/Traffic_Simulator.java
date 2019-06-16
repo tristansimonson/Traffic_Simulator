@@ -61,7 +61,7 @@ public class Traffic_Simulator {
 			boolean canMove = true;
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
-				System.out.println("Stoplight " + s.get(j).toString() + " with color " + s.get(j).currentColor);
+				//System.out.println("Stoplight " + s.get(j).toString() + " with color " + s.get(j).currentColor);
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight: \n" + 
@@ -75,10 +75,10 @@ public class Traffic_Simulator {
 							if(k != 0) {
 								canMove = false;
 							}
-							System.out.println("Vehicle found in queue");
+							System.out.println("Vehicle in queue");
 						}
 					}
-					if(s.get(j).currentColor != LightColor.GREEN) {
+					if(s.get(j).currentColor == LightColor.GREEN) {
 						// move car
 						if (canMove == true) {
 							canMove = false;
@@ -88,7 +88,7 @@ public class Traffic_Simulator {
 							}
 						}
 					}
-					else if(s.get(j).currentColor != LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
+					else if(s.get(j).currentColor == LightColor.YELLOW && v.get(i).style == DrivingStyle.FAST) {
 						// move car
 						if (canMove == true) {
 							canMove = false;
@@ -97,13 +97,14 @@ public class Traffic_Simulator {
 								continue;
 							}
 						}
-					}
-					if(newV.isEmpty() || count == timer) {
-						return;
 					}
 					// if light is red car will be added to queue of light
 					else {
+						canMove = false;
 						s.get(j).queue.add(v.get(i));
+					}
+					if(newV.isEmpty() || count == timer) {
+						return;
 					}
 				}
 				// no stoplight at intersection so good to go
