@@ -76,12 +76,12 @@ public class Stoplight {
 	// returns location of string stoplight
 	public String toString() {
 		// TODO: make actual address after adding lookup
-		return (Integer.toString(this.NSStreet) + " " + Integer.toString(this.EWStreet));
+		return (Integer.toString(this.EWStreet) + " " + Integer.toString(this.NSStreet));
 	}
 	
 	// determines what color of light should be based on durations of colors and timer
+	// TODO: make light colors specific to EW NS
 	public void determineLight(int timePassed) {
-		// System.out.println("determineLight called...");
 		double timeReduced = timePassed % this.greenDuration + this.yellowDuration + this.redDuration;
 		LightColor firstColor = this.startingColor;
 		LightColor secondColor = this.startingColor;
