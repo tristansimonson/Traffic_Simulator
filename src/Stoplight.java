@@ -88,7 +88,7 @@ public class Stoplight {
 		LightColor thirdColor = this.startingColor;
 		double firstDuration = 0.0;
 		double secondDuration = 0.0;
-		double thirdDuration = 0.0;
+		// double thirdDuration = 0.0;
 		// need to figure out color and duration order
 		switch(firstColor) {
 			case GREEN :
@@ -96,19 +96,19 @@ public class Stoplight {
 				thirdColor = LightColor.RED;
 				firstDuration = this.greenDuration;	
 				secondDuration = this.yellowDuration;
-				thirdDuration = this.redDuration;
+				// thirdDuration = this.redDuration;
 			case YELLOW :
 				secondColor = LightColor.RED;
 				thirdColor = LightColor.GREEN;
 				firstDuration = this.yellowDuration;
 				secondDuration = this.redDuration;
-				thirdDuration = this.greenDuration;
+				// thirdDuration = this.greenDuration;
 			default :
 				secondColor = LightColor.GREEN;
 				thirdColor = LightColor.YELLOW;
 				firstDuration = this.redDuration;
 				secondDuration = this.greenDuration;
-				thirdDuration = this.yellowDuration;
+				// thirdDuration = this.yellowDuration;
 		}
 		// into second duration
 		if(timeReduced > firstDuration && timeReduced <= firstDuration + secondDuration) {

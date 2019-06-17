@@ -61,14 +61,14 @@ public class Traffic_Simulator {
 			boolean canMove = true;
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
-				//System.out.println("Stoplight " + s.get(j).toString() + " with color " + s.get(j).currentColor);
+				// System.out.println("Stoplight " + s.get(j).toString() + " with color " + s.get(j).currentColor);
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight: \n" + 
 									  	"    " + v.get(i).toString() + " at " + s.get(j).toString() + 
 										" with light color " + s.get(j).currentColor);
 					// check if vehicle in a queue
-					ArrayList queue = s.get(j).queue;
+					ArrayList<Vehicle> queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
 						if(queue.get(k) == v.get(i)) {
 							// check if vehicle not at front of queue
@@ -82,9 +82,9 @@ public class Traffic_Simulator {
 						// move car
 						if (canMove == true) {
 							canMove = false;
-							if(v.get(i).move(map) == true) {
+							boolean remove = v.get(i).move(map); 
+							if(remove == true) {
 								newV.remove(v.get(i));
-								continue;
 							}
 						}
 					}
@@ -92,41 +92,40 @@ public class Traffic_Simulator {
 						// move car
 						if (canMove == true) {
 							canMove = false;
-							if(v.get(i).move(map) == true) {
+							boolean remove = v.get(i).move(map); 
+							if(remove == true) {
 								newV.remove(v.get(i));
-								continue;
 							}
 						}
 					}
-					// if light is red car will be added to queue of light
+					// light is red and car will be added to queue of light
 					else {
 						canMove = false;
 						s.get(j).queue.add(v.get(i));
 					}
-					if(newV.isEmpty() || count == timer) {
-						return;
-					}
 				}
-				// no stoplight at intersection so good to go
+				// no stoplight at intersection
 				else {
-					// if car reaches destination then remove from list
+					// if car reaches destination after move remove from list
 					if (canMove == true) {
 						canMove = false;
-						if(v.get(i).move(map) == true) {
+						boolean remove = v.get(i).move(map); 
+						if(remove == true) {
 							newV.remove(v.get(i));
-						}
-						if(newV.isEmpty() || count == timer) {
-							return;
 						}
 					}
 				}
+				if(newV.isEmpty() || count == timer) {
+					return;
+				}
 			}
+			System.out.print(v.get(i).toString() + " located at " + v.get(i).location.toString() + "\n");
 		}
 		// update stoplights
 		for(int i = 0; i < s.size(); i++) {
 			s.get(i).determineLight(count + 1);
 		}
-		// pass updated timer
+		// pass updated time and vehicle list
 		System.out.println("\nTimer: " + (count + 1) + "/" + timer);
 		run(newV, s, map, count + 1, timer);
 	}
