@@ -35,7 +35,11 @@ public class Traffic_Simulator {
 		dest2 = dest2.address(4, 1);
 		v2 = v2.vehicle("Nissan", "350z", "2005", loc2, dest2, DrivingStyle.FAST);
 		Vehicle v3 = new Vehicle();
-		v3 = v3.vehicle("Nissan", "370z", "2012", loc2, dest2, DrivingStyle.FAST);
+		Address loc3 = new Address();
+		Address dest3 = new Address();
+		loc3 = loc3.address(4, 5);
+		dest3 = dest3.address(4, 1);
+		v3 = v3.vehicle("Nissan", "370z", "2012", loc3, dest3, DrivingStyle.FAST);
 		stoplights.add(s1);
 		stoplights.add(s2);
 		stoplights.add(s3);
@@ -61,12 +65,10 @@ public class Traffic_Simulator {
 			boolean canMove = true;
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
-				// System.out.println("Stoplight " + s.get(j).toString() + " with color " + s.get(j).currentColor);
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
-					System.out.println("Vehicle has arrived at stoplight: \n" + 
-									  	"    " + v.get(i).toString() + " at " + s.get(j).toString() + 
-										" with light color " + s.get(j).currentColor);
+					System.out.println("Vehicle has arrived at stoplight: \n" + "    " + v.get(i).toString() + 
+							           " at " + s.get(j).toString() + " with light color " + s.get(j).currentColor);
 					// check if vehicle in a queue
 					ArrayList<Vehicle> queue = s.get(j).queue;
 					for(int k = 0; k < queue.size(); k++) {
