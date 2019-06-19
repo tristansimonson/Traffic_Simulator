@@ -22,11 +22,11 @@ public class Traffic_Simulator {
 		s3 = s3.stoplight(3, 2, 5.0, 5.0, 5.0, LightColor.GREEN);
 		Stoplight s4 = new Stoplight();
 		s4 = s4.stoplight(4, 2, 1.0, 1.0, 20.0, LightColor.RED);
-		Address loc = new Address();
-		loc = loc.address(1, 1);
-		Address dest = new Address();
-		dest = dest.address(5, 5);
 		Vehicle v1 = new Vehicle();
+		Address loc = new Address();
+		Address dest = new Address();
+		loc = loc.address(1, 1);
+		dest = dest.address(5, 5);
 		v1 = v1.vehicle("Chevy", "Volt", "2015", loc, dest, DrivingStyle.AVERAGE);
 		Vehicle v2 = new Vehicle();
 		Address loc2 = new Address();
@@ -65,21 +65,16 @@ public class Traffic_Simulator {
 			boolean canMove = true;
 			// check for stoplights at vehicle location
 			for(int j = 0; j < s.size(); j++) {
+				// check if vehicle in stoplight queue
+				for(int k = 0; k < s.get(j).queue.size(); k++) {
+					if(s.get(j).queue.get(k) == v.get(i) && s.get(j).currentColor == LightColor.RED) {
+						canMove = false;
+					}
+				}
 				// car has arrived at stoplight
 				if (s.get(j).EWStreet == v.get(i).location.street1 && s.get(j).NSStreet == v.get(i).location.street2) {
 					System.out.println("Vehicle has arrived at stoplight: \n" + "    " + v.get(i).toString() + 
 							           " at " + s.get(j).toString() + " with light color " + s.get(j).currentColor);
-					// check if vehicle in a queue
-					ArrayList<Vehicle> queue = s.get(j).queue;
-					for(int k = 0; k < queue.size(); k++) {
-						if(queue.get(k) == v.get(i)) {
-							// check if vehicle not at front of queue
-							if(k != 0) {
-								canMove = false;
-							}
-							System.out.println("Vehicle in queue");
-						}
-					}
 					if(s.get(j).currentColor == LightColor.GREEN) {
 						// move car
 						if (canMove == true) {
